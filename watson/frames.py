@@ -1,4 +1,4 @@
-import uuid
+import hashlib
 
 import arrow
 
@@ -136,7 +136,9 @@ class Frames(object):
     def new_frame(self, project, start, stop, tags=None, id=None,
                   updated_at=None):
         if not id:
-            id = uuid.uuid4().hex
+            s = b'{}{}{}'.format(project,start,stop)
+            id = haslib.sha256(s).hexdigest()
+
         return Frame(start, stop, project, id, tags=tags,
                      updated_at=updated_at)
 
